@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from "yup";
+import axios from 'axios';
 
 function UserForm({ errors, touched, values, status }) {
     return (
@@ -37,25 +38,25 @@ const FormikUserForm = withFormik({
         email: Yup.string().required("Please fill this in!"),
         password: Yup.string().required("Please fill this in!"),
         termsOfService: Yup.bool()
-      })
+      }),
   
-    // handleSubmit(values, { setStatus, resetForm }) {
-    //   console.log("Submitting form:", values);
+    handleSubmit(values, { setStatus, resetForm }) {
+      console.log("Submitting form:", values);
   
-    //   axios
-    //     .post("https://reqres.in/api/users/", values)
-    //     // just put in a url you want data from
-    //     .then(res => {
-    //       console.log("Success:", res);
-    //       setStatus(res.data);
-    //       resetForm();
-    //     })
-    //     // do stuff with whatever gets returned
-    //     .catch(err => {
-    //       console.log("Error:", err.response);
-    //     });
-    //   // if there's an error, handle it
-    // }
+      axios
+        .post("https://reqres.in/api/users/", values)
+        // just put in a url you want data from
+        .then(res => {
+          console.log("Success:", res);
+          setStatus(res.data);
+          resetForm();
+        })
+        // do stuff with whatever gets returned
+        .catch(err => {
+          console.log("Error:", err.response);
+        });
+      // if there's an error, handle it
+    }
   })(UserForm);
 
 export default FormikUserForm;
