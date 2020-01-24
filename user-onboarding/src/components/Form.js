@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from "yup";
 import axios from 'axios';
 
-function UserForm({ errors, touched, values, status }) {
+function UserForm({ errors, touched, values, status, props }) {
+
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        status && setUsers(users => [...users, status]);
+    }, [status]);
+
     return (
+        <div>
         <Form>
             <Field type="text" name="name" placeholder="Name" />
             {touched.name && errors.name && <p>{errors.name}</p>}
@@ -20,7 +28,15 @@ function UserForm({ errors, touched, values, status }) {
 
             <button type="submit">Submit</button>
         </Form>
-    )
+        {users.map(users => (
+            <ul>
+            <li>Name: {users.name}</li>
+            <li>Email: {users.email}</li>
+            <li>Password: {users.password}</li>
+         </ul>
+  ))}
+</div>)
+        
 };
 
 const FormikUserForm = withFormik({
